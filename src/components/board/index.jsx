@@ -1,5 +1,5 @@
 import React from "react";
-import Cell from "./cell";
+import Cell from "components/board/cell";
 import "./style.scss";
 
 const Board = () => {

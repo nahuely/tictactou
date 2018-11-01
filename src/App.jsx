@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import Header from "./components/header";
-import Footer from "./components/footer";
-import Board from "./components/board";
-import Controls from "./components/controls";
+import Header from "components/header";
+import Footer from "components/footer";
+import Board from "components/board";
+import Controls from "components/controls";
 import "./layout.css";
 
 class App extends Component {
