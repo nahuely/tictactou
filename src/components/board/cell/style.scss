@@ -1,0 +1,16 @@
+.item {
+  grid-area: "cell";
+  background: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 120px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.item:hover {
+  background: darkred;
+  border-radius: 5px;
+  transition: all 200ms ease;
+}

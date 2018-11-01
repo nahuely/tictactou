@@ -1,0 +1,10 @@
+.board {
+  display: grid;
+  grid-template-areas:
+    "cell cell cell"
+    "cell cell cell"
+    "cell cell cell";
+  grid-template-rows: 200px 200px 200px;
+  grid-template-columns: 200px 200px 200px;
+  grid-gap: 10px;
+}
