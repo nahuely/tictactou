@@ -1,0 +1,19 @@
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+  color: ivory;
+  font-size: 20px;
+  height: 100%;
+  width: 100%;
+
+  span {
+    font-style: italic;
+  }
+
+  i {
+    animation: change-background 2000ms linear infinite;
+    color: red;
+  }
+}

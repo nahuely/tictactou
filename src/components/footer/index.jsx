@@ -1,8 +1,9 @@
 import React from "react";
+import "./style.scss";
 
 const Footer = () => {
   return (
-    <footer class="app__footer">
+    <footer class="footer">
       made with&nbsp;
       <i class="icon ion-md-heart-empty" />
       &nbsp;by&nbsp;

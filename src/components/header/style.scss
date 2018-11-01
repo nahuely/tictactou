@@ -2,18 +2,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 60px;
+  height: 100%;
+  width: 100%;
   background-color: black;
-}
 
-.header__title {
-  font-size: 25px;
-  color: ivory;
-}
+  &__title {
+    font-size: 25px;
+    color: ivory;
 
-.header__title--red {
-  font-weight: bold;
-  animation: change-background 2000ms linear infinite;
+    &--red {
+      font-weight: bold;
+      animation: change-background 2000ms linear infinite;
+    }
+  }
 }
 
 @keyframes change-background {

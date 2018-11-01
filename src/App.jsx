@@ -3,7 +3,7 @@ import Header from "components/header";
 import Footer from "components/footer";
 import Board from "components/board";
 import Controls from "components/controls";
-import "./layout.css";
+import "./layout.scss";
 
 class App extends Component {
   render() {
