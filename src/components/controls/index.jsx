@@ -2,10 +2,11 @@ import React from "react";
 import Button from "components/button";
 import "./style.scss";
 
-const Controls = () => {
+const Controls = ({ onNewGame }) => {
   return (
-    <div class="controls">
-      <Button text="NEW GAME" />
+    <div className="controls">
+      <Button onClick={() => onNewGame("human")} text="HUMAN FIRST" />
+      <Button onClick={() => onNewGame("ai")} text="IA FIRST" />
     </div>
   );
 };

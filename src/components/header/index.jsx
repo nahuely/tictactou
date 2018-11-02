@@ -3,9 +3,9 @@ import "./style.scss";
 
 const Header = () => {
   return (
-    <header class="header">
-      <h1 class="header__title">
-        TIC <span class="header__title--red">TAC</span> TOE
+    <header className="header">
+      <h1 className="header__title">
+        TIC <span className="header__title--red">TAC</span> TOE
       </h1>
     </header>
   );
