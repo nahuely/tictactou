@@ -24,8 +24,19 @@ const getNewBoard = () => ({
   8: undefined
 });
 
+function shuffle(a) {
+  var j, x, i;
+  for (i = a.length - 1; i > 0; i--) {
+      j = Math.floor(Math.random() * (i + 1));
+      x = a[i];
+      a[i] = a[j];
+      a[j] = x;
+  }
+  return a;
+}
+
 const getAvailableSquares = board => {
-  return getCellsByPlayer(board, undefined);
+  return shuffle(getCellsByPlayer(board, undefined));
 };
 
 const getCellsByPlayer = (board, player) => {
