@@ -2,26 +2,20 @@ import React, { Component } from "react";
 import Header from "components/header";
 import Footer from "components/footer";
 import Board from "components/board";
+import Timeline from "components/timeline";
 import Controls from "components/controls";
 import * as game from "services/tictactoe";
+import { SYMBOLS, PLAYERS, GAME_RESULT } from "constants/game";
 import "./layout.scss";
-
-const Symbols = Object.freeze({
-  X: "x",
-  O: "o"
-});
-
-const Players = Object.freeze({
-  HUMAN: "human",
-  AI: "ai"
-});
 
 class App extends Component {
   state = {
     board: game.getNewBoard(),
-    isOver: false,
-    turn: Players.HUMAN,
-    moves: []
+    gameResult: null,
+    turn: PLAYERS.human,
+    moves: [],
+    winningPosition: null,
+    currentPreviewPosition: null
   };
 
   getAIMove = board => {
@@ -29,65 +23,137 @@ class App extends Component {
   };
 
   componentDidMount() {
-    const { turn } = this.state;
-    if (turn === Players.AI) {
+    const { turn, gameResult } = this.state;
+    if (turn === PLAYERS.ai && !gameResult) {
       const move = this.getAIMove({ ...this.state.board });
       this.makeMove(move.move, turn);
     }
   }
 
   componentDidUpdate() {
-    const { turn } = this.state;
-    if (turn === Players.AI) {
+    const { turn, gameResult } = this.state;
+    if (turn === PLAYERS.ai && !gameResult) {
       const move = this.getAIMove({ ...this.state.board });
       this.makeMove(move.move, turn);
     }
   }
 
-  toggleTurn = player => {
-    return player === Players.AI ? Players.HUMAN : Players.AI;
+  toggleTurn = player => (player === PLAYERS.ai ? PLAYERS.human : PLAYERS.ai);
+
+  onChangeTimeline = pointer => {
+    const { moves } = this.state;
+    const includedMoves = moves.slice(0, pointer);
+    const newBoard = game.getNewBoard();
+
+    includedMoves.forEach(move => {
+      newBoard[move.position] = move.symbol;
+    });
+
+    this.setState({ board: newBoard, currentPreviewPosition: pointer });
   };
 
   newGame = firstPlayer => {
-    this.setState({ board: game.getNewBoard(), turn: firstPlayer, moves: [] });
-  };
-
-  makeMove = (move, player) => {
-    const { moves } = this.state;
-    const moveInt = parseInt(move, 10);
     this.setState({
-      board: {
-        ...this.state.board,
-        [moveInt]: player === Players.AI ? Symbols.O : Symbols.X
-      },
-      turn: this.toggleTurn(player),
-      moves: [
-        ...moves,
-        {
-          position: moveInt,
-          symbol: player === Players.AI ? Symbols.O : Symbols.X
-        }
-      ]
+      board: game.getNewBoard(),
+      turn: firstPlayer,
+      moves: [],
+      gameResult: null,
+      winningPosition: null,
+      currentPreviewPosition: null
     });
   };
 
-  onCellClick = (position, value) => {
-    const { turn } = this.state;
-    if (!value) {
-      this.makeMove(position, turn);
+  makeMove = (move, player) => {
+    const { moves, gameResult } = this.state;
+    if (!gameResult) {
+      if (move !== undefined) {
+        const symbol = player === PLAYERS.ai ? SYMBOLS.o : SYMBOLS.x;
+        const newBoard = { ...this.state.board, [move]: symbol };
+
+        const playerSquares = game.getCellsByPlayer(newBoard, symbol);
+        const isThereAWin = game.isAWinningPosition(playerSquares);
+        const isDraw = game.isDraw(newBoard);
+
+        const state = {
+          board: newBoard,
+          turn: this.toggleTurn(player),
+          moves: [...moves, { position: move, symbol: symbol }]
+        };
+
+        if (isThereAWin > -1) {
+          state.gameResult = GAME_RESULT[symbol];
+          state.winningPosition = game.winningPositions[isThereAWin];
+        } else if (isDraw) {
+          state.gameResult = GAME_RESULT.draw;
+        }
+        this.setState(state);
+      } else {
+        this.setState({ gameResult: GAME_RESULT.draw });
+      }
     }
   };
 
+  getGameResultString = () => {
+    const { gameResult } = this.state;
+    let output = null;
+    if (gameResult === GAME_RESULT.x || gameResult === GAME_RESULT.o) {
+      output = `The winner is ${gameResult.toUpperCase()} 🎉`;
+    } else if (gameResult === GAME_RESULT.draw) {
+      output = `The game was a TIE 🐻`;
+    }
+    return output;
+  };
+
+  onCellClick = (position, value) => {
+    const { turn, gameResult } = this.state;
+    if (!value && !gameResult) {
+      this.makeMove(parseInt(position, 10), turn);
+    }
+  };
+
+  shouldShowWinningPosition = () => {
+    const { winningPosition, currentPreviewPosition, moves } = this.state;
+    if (winningPosition) {
+      if (
+        currentPreviewPosition &&
+        parseInt(currentPreviewPosition, 10) === moves.length
+      ) {
+        return winningPosition;
+      } else if (!currentPreviewPosition) {
+        return winningPosition;
+      }
+      return null;
+    }
+    return winningPosition;
+  };
+
   render() {
-    const { board } = this.state;
+    const { board, gameResult, moves, currentPreviewPosition } = this.state;
     return (
       <div className="app">
         <header className="app__header">
           <Header />
         </header>
         <main className="app__content">
-          <Board onClick={this.onCellClick} board={board} />
-          <Controls onNewGame={this.newGame} />
+          <div className="app__content__game">
+            <Board
+              onClick={this.onCellClick}
+              board={board}
+              winningPosition={this.shouldShowWinningPosition()}
+            />
+
+            {gameResult ? (
+              <Timeline
+                moves={moves}
+                onChange={this.onChangeTimeline}
+                value={currentPreviewPosition}
+              />
+            ) : null}
+            <div className="app__content__game__result">
+              <p>{this.getGameResultString()}</p>
+            </div>
+            <Controls onNewGame={this.newGame} />
+          </div>
         </main>
         <footer className="app__footer">
           <Footer />

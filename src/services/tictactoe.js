@@ -27,10 +27,10 @@ const getNewBoard = () => ({
 function shuffle(a) {
   var j, x, i;
   for (i = a.length - 1; i > 0; i--) {
-      j = Math.floor(Math.random() * (i + 1));
-      x = a[i];
-      a[i] = a[j];
-      a[j] = x;
+    j = Math.floor(Math.random() * (i + 1));
+    x = a[i];
+    a[i] = a[j];
+    a[j] = x;
   }
   return a;
 }
@@ -47,6 +47,9 @@ const getCellsByPlayer = (board, player) => {
     return acc;
   }, []);
 };
+
+const isDraw = board =>
+  Object.entries(board).every(([_, value]) => value !== undefined);
 
 const isAWinningPosition = squares => {
   let output = -1;
@@ -124,5 +127,7 @@ export {
   winningPositions,
   minmax,
   getAvailableSquares,
-  isAWinningPosition
+  isAWinningPosition,
+  getCellsByPlayer,
+  isDraw
 };

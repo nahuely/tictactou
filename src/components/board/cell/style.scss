@@ -1,3 +1,5 @@
+@import "constants/variables.scss";
+
 .item {
   grid-area: "cell";
   background: red;
@@ -7,10 +9,30 @@
   font-size: 120px;
   cursor: pointer;
   font-weight: bold;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: ivory;
 
-  &:hover {
+  &:hover, &:active {
     background: darkred;
     border-radius: 5px;
     transition: all 200ms ease;
+  }
+
+  &--winning {
+    background: black;
+    transition: all 200ms ease;
+
+    &:hover, &:active {
+      background: black;
+    }
+  }
+
+  @media all and (max-width: $breakpoint-mobile) {
+    & {
+      font-size: 80px;
+    }
   }
 }

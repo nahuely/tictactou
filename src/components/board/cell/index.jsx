@@ -2,12 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./style.scss";
 
-const Cell = ({ onClick, position, value }) => {
+const Cell = ({ onClick, position, value, winning }) => {
   return (
     <div
       onClick={() => onClick(position, value)}
       position={position}
-      className="item"
+      className={`item${winning ? " item--winning" : ""}`}
     >
       {value}
     </div>
@@ -16,12 +16,12 @@ const Cell = ({ onClick, position, value }) => {
 
 Cell.propTypes = {
   onClick: PropTypes.func,
-  value: PropTypes.string
+  value: PropTypes.node
 };
 
 Cell.defaultProps = {
   onClick: () => {},
-  value: ""
+  value: null
 };
 
 export default Cell;

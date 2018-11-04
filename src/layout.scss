@@ -1,9 +1,17 @@
+@import "constants/variables.scss";
+
 .app {
   display: flex;
   flex-direction: column;
   height: 100vh;
   &__header {
     height: 60px;
+
+    & {
+      @media all and (max-width: $breakpoint-mobile) {
+        height: 50px;
+      }
+    }
   }
 
   &__content {
@@ -12,7 +20,26 @@
     align-items: center;
     justify-content: center;
     height: 100%;
-    color: ivory;
+
+    &__game {
+      width: auto;
+
+      &__result {
+        text-align: center;
+        margin: 10px 0;
+
+        p {
+          font-size: 30px;
+          font-weight: bold;
+
+          & {
+            @media all and (max-width: $breakpoint-mobile) {
+              font-size: 25px;
+            }
+          }
+        }
+      }
+    }
   }
 
   &__footer {

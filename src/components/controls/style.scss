@@ -1,6 +1,13 @@
 .controls {
-    margin: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+
+  button:first-child {
+    margin-right: 20px;
   }
+
   .controls__button {
     border-radius: 4px;
     padding: 10px 20px;
@@ -8,4 +15,4 @@
     cursor: pointer;
     font-size: 15px;
   }
-  
+}
