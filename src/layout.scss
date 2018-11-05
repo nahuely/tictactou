@@ -20,6 +20,13 @@
     align-items: center;
     justify-content: center;
     height: 100%;
+    min-height: 800px;
+
+    & {
+      @media all and (max-width: $breakpoint-mobile) {
+        min-height: 500px;
+      }
+    }
 
     &__game {
       width: auto;
