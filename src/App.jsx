@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ReactGA from "react-ga";
 import Header from "components/header";
 import Footer from "components/footer";
 import Board from "components/board";
@@ -8,7 +9,14 @@ import * as game from "services/tictactoe";
 import { SYMBOLS, PLAYERS, GAME_RESULT } from "constants/game";
 import "./layout.scss";
 
+ReactGA.initialize("UA-128606095-1");
+
 class App extends Component {
+  constructor(props) {
+    super(props);
+    ReactGA.pageview("/");
+  }
+
   state = {
     board: game.getNewBoard(),
     gameResult: null,
@@ -53,6 +61,12 @@ class App extends Component {
   };
 
   newGame = firstPlayer => {
+    ReactGA.event({
+      category: 'game',
+      action: 'new game',
+      value: firstPlayer
+    });
+
     this.setState({
       board: game.getNewBoard(),
       turn: firstPlayer,
@@ -81,13 +95,31 @@ class App extends Component {
         };
 
         if (isThereAWin > -1) {
+          ReactGA.event({
+            category: 'game',
+            action: 'game finished',
+            value: GAME_RESULT[symbol]
+          });
+
           state.gameResult = GAME_RESULT[symbol];
           state.winningPosition = game.winningPositions[isThereAWin];
         } else if (isDraw) {
+          ReactGA.event({
+            category: 'game',
+            action: 'game finished',
+            value: GAME_RESULT.draw
+          });
+
           state.gameResult = GAME_RESULT.draw;
         }
         this.setState(state);
       } else {
+        ReactGA.event({
+          category: 'game',
+          action: 'game finished',
+          value: GAME_RESULT.draw
+        });
+
         this.setState({ gameResult: GAME_RESULT.draw });
       }
     }
