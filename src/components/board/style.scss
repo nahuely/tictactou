@@ -9,6 +9,7 @@
   grid-template-rows: 180px 180px 180px;
   grid-template-columns: 180px 180px 180px;
   grid-gap: 10px;
+  background-color: black;
 
   @media all and (max-width: $breakpoint-mobile) {
     grid-template-rows: 100px 100px 100px;
