@@ -98,7 +98,7 @@ class App extends Component {
           ReactGA.event({
             category: 'game',
             action: 'game finished',
-            value: GAME_RESULT[symbol]
+            value: GAME_RESULT[symbol] === 'x' ? 2 : 1
           });
 
           state.gameResult = GAME_RESULT[symbol];
@@ -107,7 +107,7 @@ class App extends Component {
           ReactGA.event({
             category: 'game',
             action: 'game finished',
-            value: GAME_RESULT.draw
+            value: 0
           });
 
           state.gameResult = GAME_RESULT.draw;
@@ -117,7 +117,7 @@ class App extends Component {
         ReactGA.event({
           category: 'game',
           action: 'game finished',
-          value: GAME_RESULT.draw
+          value: 0
         });
 
         this.setState({ gameResult: GAME_RESULT.draw });

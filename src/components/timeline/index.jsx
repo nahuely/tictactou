@@ -12,6 +12,7 @@ const Timeline = ({ moves, onChange }) => {
         value={moves.length.toString()}
         onChange={onChange}
       />
+      <p className="timeline__explanation">&lt;slide to review moves&gt;</p>
     </div>
   );
 };
